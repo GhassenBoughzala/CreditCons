@@ -22,6 +22,7 @@ var functions = {
             })
         }
     },
+    
     authenticate: function (req, res) {
         User.findOne({
             name: req.body.name
@@ -47,6 +48,7 @@ var functions = {
         }
         )
     },
+
     getinfo: function (req, res) {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]

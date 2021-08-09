@@ -1,5 +1,6 @@
 const express = require('express')
 const actions = require('../methods/actions')
+const demactions = require('../methods/demandeactions')
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -21,5 +22,11 @@ router.post('/authenticate', actions.authenticate)
 //@desc Get info on a user
 //@route GET /getinfo
 router.get('/getinfo', actions.getinfo)
+
+//Demande CRUD
+router.post('/addDem', demactions.addDem)
+router.get('/viewall', demactions.viewAll)
+router.put('/updateDem', demactions.updateDem)
+router.delete('/deleteDem/:id', demactions.annulerDem)
 
 module.exports = router

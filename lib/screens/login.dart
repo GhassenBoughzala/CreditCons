@@ -1,3 +1,4 @@
+import 'package:creditapp/screens/menu.dart';
 import 'package:creditapp/screens/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:creditapp/services/authservice.dart';
@@ -96,6 +97,7 @@ class LoginPage extends StatelessWidget {
                               textColor: Colors.white,
                               fontSize: 16.0
                             );
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
                           });
                         } ,
                         color: Color(0xff3868B2),
