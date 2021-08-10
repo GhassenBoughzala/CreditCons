@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:creditapp/services/authservice.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+// ignore: must_be_immutable
 class SignupPage extends StatelessWidget {
   var name, password, token;
   @override

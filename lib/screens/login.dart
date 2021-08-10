@@ -97,7 +97,7 @@ class LoginPage extends StatelessWidget {
                               textColor: Colors.white,
                               fontSize: 16.0
                             );
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
                           });
                         } ,
                         color: Color(0xff3868B2),
