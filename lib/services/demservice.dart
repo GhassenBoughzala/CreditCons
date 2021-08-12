@@ -6,7 +6,6 @@ class DemService {
 
   Dio dio = new Dio();
 
-
   addDem(type, apport, montant,resultat, duree, period, date) async { 
       return await dio.post('http://localhost:3000/addDem',
 
@@ -17,9 +16,15 @@ class DemService {
                   "duree": duree,
                   "period": period,
                   "date": date},
-                  
+
           options: Options(contentType: Headers.formUrlEncodedContentType));
   }
+
+  viewall() async {
+    return await dio.get('http://localhost:3000/viewall');
+  }
+
+  
 
 
 }

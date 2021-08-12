@@ -1,6 +1,7 @@
 const express = require('express')
 const actions = require('../methods/actions')
 const demactions = require('../methods/demandeactions')
+const auth = require('../methods/authController')
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -22,6 +23,12 @@ router.post('/authenticate', actions.authenticate)
 //@desc Get info on a user
 //@route GET /getinfo
 router.get('/getinfo', actions.getinfo)
+
+
+//AuthUser 2.0
+router.post('/signup', auth.signup)
+router.post('/signin', auth.signin)
+router.get('/logout', auth.logout)
 
 //Demande CRUD
 router.post('/addDem', demactions.addDem)

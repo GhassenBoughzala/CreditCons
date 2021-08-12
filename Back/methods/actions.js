@@ -58,6 +58,10 @@ var functions = {
         else {
             return res.json({success: false, msg: 'No Headers'})
         }
+    },
+
+    logout: function (req, res) {
+        res.status(200).send({ auth: false, token:null});
     }
 }
 
