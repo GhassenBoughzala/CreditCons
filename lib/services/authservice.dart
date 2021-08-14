@@ -5,11 +5,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class AuthService {
   Dio dio = new Dio();
 
-  login(name, password) async {
+  login(email, password) async {
     try{
       return await dio.post(
-      'http://localhost:3000/authenticate',
-      data: {"name": name, "password":password},
+      'http://localhost:3000/signin',
+      data: {"email": email, "password":password},
       options: Options(contentType: Headers.formUrlEncodedContentType));
 
     }on DioError catch (e){

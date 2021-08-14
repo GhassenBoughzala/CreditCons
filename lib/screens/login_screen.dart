@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              labelText: 'Name'
+              labelText: 'Email'
             ),
             onChanged: (val){ name = val;},
           ),

@@ -5,7 +5,7 @@ import 'package:creditapp/services/authservice.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
-  var name, password, token;
+  var email, password, token;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +52,9 @@ class LoginPage extends StatelessWidget {
                     children: <Widget>[
                       TextField(
                         decoration: InputDecoration(
-                          labelText: 'Name'
+                          labelText: 'Email'
                         ),
-                        onChanged: (val){ name = val;},
+                        onChanged: (val){ email = val;},
                       ),
                       TextField(
                         obscureText: true,
@@ -68,25 +68,11 @@ class LoginPage extends StatelessWidget {
                   EdgeInsets.symmetric(horizontal: 40),
                   child: Container(
                       padding: EdgeInsets.only(top: 3, left: 3),
-                      decoration:
-                        BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border(
-                            bottom: BorderSide(color: Colors.black),
-                            top: BorderSide(color: Colors.black),
-                            left: BorderSide(color: Colors.black),
-                            right: BorderSide(color: Colors.black),
-
-                          )
-
-
-
-                        ),
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: (){
-                          AuthService().login(name, password).then((val){
+                          AuthService().login(email, password).then((val){
                             token = val.data['token'];
                             Fluttertoast.showToast(
                               msg:'Successfully Authenticated ',

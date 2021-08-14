@@ -1,3 +1,4 @@
+import 'package:creditapp/main.dart';
 import 'package:creditapp/services/demservice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -132,7 +133,15 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                         },
                       ),
                       Text("", style: TextStyle(fontSize: 24, color: Color(0xff3868B2))),
-                      Icon(Icons.settings, color: Color(0xff3868B2)),
+                      TextButton(
+                        child:  Text(" Logout ",                      
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,),
+                        ),
+                        onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainPage()));},
+                    ),
                     ],
                   ),
                   SizedBox(height: 50),

@@ -4,6 +4,7 @@ const router = Router()
 const User = require('../models/user')
 const verifyToken = require('./verifyToken')
 const jwt = require ('jsonwebtoken')
+const jwtt = require('jwt-simple')
 const config = require ('../config/dbconfig')
 
 
@@ -34,7 +35,29 @@ signup: async(req,res) => {
     },
 
 signin: async(req,res) => {
-        try{
+    User.findOne({email: req.body.email}, 
+        function (err, user) {
+            if (err) throw err
+            if (!user) {
+                res.status(403).send({
+                        success: false,
+                        msg: 'Authentication Failed, User not found'})
+            } 
+            else {
+                user.comparePassword(req.body.password, function (err, isMatch) {
+                    if (isMatch && !err) {
+                        var token = jwtt.encode(user, config.secret)
+                        res.json({success: true, token: token})
+                    }
+                    else {
+                        return res.status(403).send({success: false, msg: 'Authentication failed, wrong password'})
+                    }
+                })
+            }
+    }
+    )
+
+    /*    try{
             const user = await User.findOne({email: req.body.email})
             if(!user){
                 return res.status(404).send("The Email doesn't exist")
@@ -51,6 +74,7 @@ signin: async(req,res) => {
             console.log(err)
             res.status(500).send('Problemo in SignIn') 
         }
+    */  
     },
 
 logout: function(req,res){

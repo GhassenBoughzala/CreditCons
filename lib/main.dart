@@ -1,9 +1,7 @@
-import 'package:creditapp/screens/home_screen.dart';
-import 'package:creditapp/screens/login.dart';
-import 'package:creditapp/screens/login_screen.dart';
-import 'package:creditapp/screens/menu.dart';
-import 'package:creditapp/screens/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:creditapp/screens/login.dart';
+import 'package:creditapp/screens/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,12 +10,33 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MenuDashboardPage(),
+      home: MainPage()
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+
+  late SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  checkLoginStatus() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if(sharedPreferences.getString("token") == null) {
+      //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => LoginPage()), (Route<dynamic> route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
