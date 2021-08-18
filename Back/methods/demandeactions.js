@@ -43,7 +43,7 @@ var functions = {
     
     //Update Demande
     updateDem: function (req, res) {
-        console.log("update Demande");
+        console.log("Update Demande");
         Demandesmodel.findByIdAndUpdate(req.params.id,
           {
             $set: {

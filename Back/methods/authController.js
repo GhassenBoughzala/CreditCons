@@ -39,6 +39,7 @@ signin: async(req,res) => {
         function (err, user) {
             if (err) throw err
             if (!user) {
+                console.log("User not found")
                 res.status(403).send({
                         success: false,
                         msg: 'Authentication Failed, User not found'})

@@ -1,11 +1,13 @@
 import 'package:creditapp/screens/menu.dart';
 import 'package:creditapp/screens/signup.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:creditapp/services/authservice.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatelessWidget {
   var email, password, token;
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +31,8 @@ class LoginPage extends StatelessWidget {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
+        child: Form(
+          key:  formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -50,15 +54,29 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                     children: <Widget>[
-                      TextField(
+                      TextFormField( 
                         decoration: InputDecoration(
-                          labelText: 'Email'
+                          labelText: 'Email',
+                          prefixIcon: Icon(Icons.mail),
                         ),
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: [AutofillHints.email],
+                        validator: (value)
+                        { if(value!.isEmpty || !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}').hasMatch(value!)){
+                            return "Enter Correct Email";
+                          }else{
+                            return null;
+                          }
+                        },
                         onChanged: (val){ email = val;},
                       ),
                       TextField(
                         obscureText: true,
-                        decoration: InputDecoration(labelText: 'Password'),
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          prefixIcon: Icon(Icons.lock),
+
+                          ),
                         onChanged: (val) { password = val; },
                       )
                     ],
@@ -72,19 +90,22 @@ class LoginPage extends StatelessWidget {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: (){
-                          AuthService().login(email, password).then((val){
-                            token = val.data['token'];
-                            Fluttertoast.showToast(
-                              msg:'Successfully Authenticated ',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 2,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                            );
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
-                          });
+                          if(formKey.currentState!.validate()){
+                              AuthService().login(email, password).then((val){
+                              token = val.data['token'];
+                              Fluttertoast.showToast(
+                                msg:'Successfully Authenticated ',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 2,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                              );
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
+                            });
+                          }
+                         
                         } ,
                         color: Color(0xff3868B2),
                         elevation: 0,
@@ -135,6 +156,7 @@ class LoginPage extends StatelessWidget {
               ],
             ))
           ],
+        ),
         ),
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:creditapp/main.dart';
+import 'package:creditapp/services/authservice.dart';
 import 'package:creditapp/services/demservice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final Color backgroundColor = Colors.white;
 
@@ -12,6 +14,7 @@ class MenuDashboardPage extends StatefulWidget {
 }
 
 class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMixin {
+
   bool isCollapsed = true;
   late double screenWidth, screenHeight;
   final Duration duration = const Duration(milliseconds: 300);
@@ -19,6 +22,7 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
   late Animation<double> _scaleAnimation;
   late Animation<double> _menuScaleAnimation;
   late Animation<Offset> _slideAnimation;
+  late SharedPreferences sharedPreferences;
 
   var type, period, name, token,duree, apport, montant, resultat;
   var date = DateTime.now();
@@ -44,6 +48,8 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
     Size size = MediaQuery.of(context).size;
     screenHeight = size.height;
     screenWidth = size.width;
+
+    
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -139,7 +145,9 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                           fontWeight: FontWeight.w600,
                           fontSize: 12,),
                         ),
-                        onPressed: (){
+                        onPressed: () async {
+                        sharedPreferences = await SharedPreferences.getInstance();
+                        AuthService().logout();
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> MainPage()));},
                     ),
                     ],
@@ -225,9 +233,30 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                   ),
 
                 ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 3, left: 3),
+                child: MaterialButton(
+                  minWidth: double.infinity,
+                  height: 60,
+                  onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
+                        },
+                  color: Color(0xff3868B2),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
 
+                  ),
+                  child: Text(
+                    "Demande de credit", style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Colors.white,
+                    ),
+                  ),
 
-
+                ),
               )
                 ],
               ),

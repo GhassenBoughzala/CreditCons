@@ -1,11 +1,12 @@
 import 'package:creditapp/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:creditapp/services/authservice.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // ignore: must_be_immutable
 class SignupPage extends StatelessWidget {
-  var name, password, token;
+  var name, password, lastname, iban, email, token;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,11 +54,29 @@ class SignupPage extends StatelessWidget {
               ),
               Column(
                 children: <Widget>[
-                   TextField(
+                    TextField(
                       decoration: InputDecoration(
-                        labelText: 'Name'
+                        labelText: 'Nom'
                       ),
                       onChanged: (val){ name = val;},
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Prenom'
+                      ),
+                      onChanged: (val){ lastname = val;},
+                    ),
+                    TextField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                          decoration: InputDecoration(labelText: 'iban'),
+                          onChanged: (val) { iban= val; },
+                        ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Email'
+                      ),
+                      onChanged: (val){ email = val;},
                     ),
                     TextField(
                       obscureText: true,
@@ -72,7 +91,7 @@ class SignupPage extends StatelessWidget {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    AuthService().adduser(name, password).then((val){
+                    AuthService().signup(name,lastname,iban,email,password).then((val){
                       
                       Fluttertoast.showToast(
                         msg: val.data['msg'],
@@ -83,6 +102,7 @@ class SignupPage extends StatelessWidget {
                         textColor: Colors.white,
                         fontSize: 16.0
                       );
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                     });
                   },
                   color: Color(0xff3868B2),
