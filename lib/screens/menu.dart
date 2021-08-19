@@ -1,4 +1,5 @@
 import 'package:creditapp/main.dart';
+import 'package:creditapp/screens/demandes/Adddem.dart';
 import 'package:creditapp/services/authservice.dart';
 import 'package:creditapp/services/demservice.dart';
 import 'package:flutter/material.dart';
@@ -78,17 +79,14 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
               children: <Widget>[
                 TextButton(
                         child:  Text("Dashboard", style: TextStyle(color: Color(0xff3868B2), fontSize: 22)),
-                        onPressed: (){},
+                        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage() ));},
                     ),
-               
                 SizedBox(height: 10),
-                Text("Messages", style: TextStyle(color: Color(0xff3868B2), fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Utility Bills", style: TextStyle(color: Color(0xff3868B2), fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Funds Transfer", style: TextStyle(color: Color(0xff3868B2), fontSize: 22)),
-                SizedBox(height: 10),
-                Text("Branches", style: TextStyle(color: Color(0xff3868B2), fontSize: 22)),
+                TextButton(
+                        child:  Text("Simuler Credit", style: TextStyle(color: Color(0xff3868B2), fontSize: 22)),
+                        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddDemPage(key: token,) ));},
+                    ),
+
               ],
             ),
           ),
@@ -160,103 +158,11 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                   Text("Simulez votre credit", style: TextStyle(color: Color(0xff3868B2), fontSize: 20),),
                   Column(
                     children: <Widget>[
-                      TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Type'
-                          ),
-                          onChanged: (val){ type = val;},
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                          decoration: InputDecoration(labelText: 'Apport'),
-                          onChanged: (val) { apport= val ; },
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                          decoration: InputDecoration(labelText: 'Montant'),
-                          onChanged: (val) { montant= val; },
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                          decoration: InputDecoration(labelText: 'Resultat'),
-                          onChanged: (val) { resultat= val; },
-                        ),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                          decoration: InputDecoration(labelText: 'Duree'),
-                          onChanged: (val) { duree= val; },
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Period'
-                          ),
-                          onChanged: (val){ period = val;},
-                        ),
+                      
                     ],
                   ),
               Container(
-                padding: EdgeInsets.only(top: 3, left: 3),
-                child: MaterialButton(
-                  minWidth: double.infinity,
-                  height: 60,
-                  onPressed: (){
-                          DemService().addDem(type, apport, montant,resultat, duree, period, date).then((val){
-                           
-                            Fluttertoast.showToast(
-                              msg:'Success + ',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 2,
-                              backgroundColor: Colors.blue,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                            );
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
-                          });
-                        },
-                  color: Color(0xff3868B2),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-
-                  ),
-                  child: Text(
-                    "Simulez", style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                    color: Colors.white,
-                    ),
-                  ),
-
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 3, left: 3),
-                child: MaterialButton(
-                  minWidth: double.infinity,
-                  height: 60,
-                  onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
-                        },
-                  color: Color(0xff3868B2),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-
-                  ),
-                  child: Text(
-                    "Demande de credit", style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                    color: Colors.white,
-                    ),
-                  ),
-
-                ),
+                padding: EdgeInsets.only(top: 44.0)
               )
                 ],
               ),

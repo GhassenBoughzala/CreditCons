@@ -62,7 +62,7 @@ class LoginPage extends StatelessWidget {
                         keyboardType: TextInputType.emailAddress,
                         autofillHints: [AutofillHints.email],
                         validator: (value)
-                        { if(value!.isEmpty || !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}').hasMatch(value!)){
+                        { if(value!.isEmpty || !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}').hasMatch(value)){
                             return "Enter Correct Email";
                           }else{
                             return null;

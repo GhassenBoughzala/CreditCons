@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,25 +10,40 @@ class DemService {
   var status;
   var token;
 
-addDem(type, apport, montant,resultat, duree, period, date) async { 
+addDem(type, apport, montant,resultat, duree, period, DateTime date) async { 
 
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key ) ?? 0;
 
+          return await dio.post('http://localhost:3000/addDem',
+
+          data: { "type": type,
+                  "apport": apport,
+                  "montant": montant,
+                  "resultat": resultat,
+                  "duree": duree,
+                  "period": period,
+                  "date": date},
+
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+
+
+
+/*
       String myUrl = "http://192.168.1.56:3000/addDem";
       final response = await  http.post(myUrl,
             headers: {
               'Accept':'application/json'
             },
             body: {
-                  "type": type,
-                  "apport": apport,
-                  "montant": montant,
-                  "resultat": resultat,
-                  "duree": duree,
-                  "period": period,
-                  "date": date
+                  "type": "$type",
+                  "apport": "$status",
+                  "montant": "$montant",
+                  "resultat": "$resultat",
+                  "duree": "$duree",
+                  "period": "$period",
+                  "date": "$date"
             } ) ;
         status = response.body.contains('error');
 
@@ -42,26 +55,10 @@ addDem(type, apport, montant,resultat, duree, period, date) async {
           print('data : ${data["token"]}');
           _save(data["token"]);
         }
-
-/*
-      return await dio.post('http://localhost:3000/addDem',
-
-          data: { "type": type,
-                  "apport": apport,
-                  "montant": montant,
-                  "resultat": resultat,
-                  "duree": duree,
-                  "period": period,
-                  "date": date},
-
-          options: Options(contentType: Headers.formUrlEncodedContentType));
 */
 
   }
 
-viewall() async {
-    return await dio.get('http://localhost:3000/viewall');
-  }
 
 //function save
 _save(String token) async {
