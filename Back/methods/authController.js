@@ -79,7 +79,8 @@ signin: async(req,res) => {
     },
 
 logout: function(req,res){
-        res.status(200).send({ auth: false, token:null});
+        console.log("USER OUT");
+        res.status(200).send({ auth: false, token:null, msg: 'Logout'});
     }
 
 }
