@@ -96,7 +96,7 @@ class SignupPage extends StatelessWidget {
                       Fluttertoast.showToast(
                         msg: val.data['msg'],
                         toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
+                        gravity: ToastGravity.TOP,
                         timeInSecForIosWeb: 2,
                         backgroundColor: Colors.blue,
                         textColor: Colors.white,

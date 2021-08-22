@@ -137,17 +137,14 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                         },
                       ),
                       Text("", style: TextStyle(fontSize: 24, color: Color(0xff3868B2))),
-                      TextButton(
-                        child:  Text(" Logout ",                      
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,),
-                        ),
+                      IconButton(
+                        icon: Icon(Icons.logout, color: Color(0xff3868B2)),
                         onPressed: () async {
                         sharedPreferences = await SharedPreferences.getInstance();
                         AuthService().logout();
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainPage()));},
-                    ),
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainPage()));
+                        },
+                      ), 
                     ],
                   ),
                   SizedBox(height: 50),
@@ -155,7 +152,7 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                     
                   ),
                   SizedBox(height: 20),
-                  Text("Simulez votre credit", style: TextStyle(color: Color(0xff3868B2), fontSize: 20),),
+                  Center(child: Text("Welcome", style: TextStyle(color: Color(0xff3868B2), fontSize: 20),),),                  
                   Column(
                     children: <Widget>[
                       

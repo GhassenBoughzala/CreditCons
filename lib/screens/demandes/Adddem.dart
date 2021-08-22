@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'button_widget.dart';
 import 'package:intl/intl.dart';
+
+import 'button_widget.dart';
 
 final Color backgroundColor = Colors.white;
 
@@ -29,11 +30,11 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
   late Animation<Offset> _slideAnimation;
   late SharedPreferences sharedPreferences;
 
-  var type, period, name, token,duree, apport, montant, resultat, date;
-  //var date = DateTime.now();
-  /*
+  var type, period, name, token,duree, apport, montant, resultat;
+  String dropdownvalue = 'Annuelle';
+  DateTime date = new DateTime.now();
+
   String getText() {
-    // ignore: unnecessary_null_comparison
     if (date == null) {
       return 'Select Date';
     } else {
@@ -41,10 +42,6 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
       return '${date.month}/${date.day}/${date.year}';
     }
   }
-  */
-  String dropdownvalue = 'Annuelle';
-
-  DemService service = new DemService();
 
   @override
   void initState() {
@@ -155,17 +152,14 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
                         },
                       ),
                       Text("", style: TextStyle(fontSize: 24, color: Color(0xff3868B2))),
-                      TextButton(
-                        child:  Text(" Logout ",                      
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,),
-                        ),
+                      IconButton(
+                        icon: Icon(Icons.logout, color: Color(0xff3868B2)),
                         onPressed: () async {
                         sharedPreferences = await SharedPreferences.getInstance();
                         AuthService().logout();
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainPage()));},
-                    ),
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainPage()));
+                        },
+                      ),
                     ],
                   ),
                   SizedBox(height: 50),
@@ -204,40 +198,73 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
                           onChanged: (val) { resultat= val; },
                         ),
                         SizedBox(height: 10),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                          decoration: InputDecoration(labelText: 'Duree'),
-                          onChanged: (val) { duree= val; },
-                        ),
-                        SizedBox(height: 10),
-                        DropdownButton<String>(
-                            value: dropdownvalue,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Duree (ans): ", style: TextStyle(color: Colors.grey, fontSize: 17),),
+                            DropdownButton<String>(
+                            value: duree,
                             icon: Icon(Icons.arrow_drop_down),
                             iconSize: 25,
-                            elevation: 16,
+                            elevation: 25,
                             style: TextStyle(color: Colors.blue),
                             underline: Container(
-                              height:3,
                               color: Colors.blueAccent,
                             ),
-                            onChanged: (val){ period = val;},
-                            items: <String>["Mensuelle","Trimestrielle","Semestrielle","Annuelle"]
-                            .map<DropdownMenuItem<String>>((String val){
-                              // ignore: missing_required_param
+                            onChanged: (newval){ 
+                              setState(() {
+                                print(newval);
+                                duree = newval;                                                     
+                              });
+                              },
+                            items: <String>["1","2","3","4","5","6","7"]
+                            .map<DropdownMenuItem<String>>((String val){                              
                               return DropdownMenuItem<String>(
-                                value: val = period,
+                                value: val,
                                 child: Text(val),
                               );
-                          }).toList(),
-                        ),                    
-                        SizedBox(height: 10),
-                        TextField(
-                          decoration: InputDecoration(labelText: 'Date'),
-                          onChanged: (val) { date= val; },
+                            }).toList(),
+                            ),
+                            Text("Period : ", style: TextStyle(color: Colors.grey, fontSize: 17),),
+                            DropdownButton<String>(
+                                value: period,
+                                icon: Icon(Icons.arrow_drop_down),
+                                iconSize: 25,
+                                elevation: 25,
+                                style: TextStyle(color: Colors.blue),
+                                underline: Container(
+                                  color: Colors.blueAccent,
+                                ),
+                                onChanged: (newval){ 
+                                  setState(() {
+                                    print(newval);
+                                    period = newval;
+                                                        
+                                  });
+                                  },
+                                items: <String>["Mensuelle","Trimestrielle","Semestrielle","Annuelle"]
+                                .map<DropdownMenuItem<String>>((String val){
+                                  
+                                  return DropdownMenuItem<String>(
+                                    value: val,
+                                    child: Text(val),
+                                  );
+                              }).toList(),
+                            ),              
+                          ],
                         ),
-                        
+                              
                         SizedBox(height: 10),
+                    ],
+                  ),
+                  Text("Date de remboursement : ", style: TextStyle(color: Colors.grey, fontSize: 18),),
+                  Column(
+                    children: <Widget>[
+                      ButtonHeaderWidget(
+                          title: 'Date',
+                          text: getText(),
+                          onClicked: () => pickDate(context),
+                        ),
                     ],
                   ),
               Container(
@@ -246,13 +273,12 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: (){
-                          service.addDem(
-                            type, apport, montant, resultat, duree, period, date)
+                          DemService().addDem(type, apport, montant, resultat, duree, period, date)
                           .then((val){                           
                             Fluttertoast.showToast(
-                              msg:'Success',
+                              msg:'Votre demande est en cours de traitement !',
                               toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
+                              gravity: ToastGravity.TOP,
                               timeInSecForIosWeb: 2,
                               backgroundColor: Colors.blue,
                               textColor: Colors.white,
@@ -260,7 +286,7 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
                             //Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
                           });
                         },
-                  color: Color(0xff3868B2),
+                  color: Colors.blue,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -284,8 +310,8 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
       ),
     );
   }
-/*
-  Future pickDate(BuildContext context) async {
+
+    Future pickDate(BuildContext context) async {
     final initialDate = DateTime.now();
     final newDate = await showDatePicker(
       context: context,
@@ -298,5 +324,4 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
 
     setState(() => date = newDate);
   }
-  */
 }

@@ -10,7 +10,7 @@ class DemService {
   var status;
   var token;
 
-addDem(type, apport, montant,resultat, duree, period, DateTime date) async { 
+addDem(type, apport, montant,resultat, duree, period, date) async { 
 
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';

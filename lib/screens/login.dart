@@ -96,7 +96,7 @@ class LoginPage extends StatelessWidget {
                               Fluttertoast.showToast(
                                 msg:'Successfully Authenticated ',
                                 toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
+                                gravity: ToastGravity.TOP,
                                 timeInSecForIosWeb: 2,
                                 backgroundColor: Colors.green,
                                 textColor: Colors.white,
