@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:creditapp/main.dart';
 import 'package:creditapp/screens/demandes/Adddem.dart';
 import 'package:creditapp/services/authservice.dart';
@@ -6,17 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-import 'demandes/demlist.dart';
+import '../menu.dart';
+import 'demdetail.dart';
+import 'demlist.dart';
 
 final Color backgroundColor = Colors.white;
 
-class MenuDashboardPage extends StatefulWidget {
+class ListDemViewPage extends StatefulWidget {
   @override
-  MenuPage createState() => MenuPage();
+  ListDemView createState() => ListDemView();
 }
 
-class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMixin {
+class ListDemView extends State<ListDemViewPage> with SingleTickerProviderStateMixin {
 
   bool isCollapsed = true;
   late double screenWidth, screenHeight;
@@ -30,9 +35,18 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
   var type, period, name, token,duree, apport, montant, resultat;
   var date = DateTime.now();
 
+  late Map data;
+  late List demData = [];
+
+  Future<List> getData() async {
+    final response = await http.get("http://localhost:3000/viewall");
+    return json.decode(response.body);
+  }
+
   @override
   void initState() {
     super.initState();
+    this.getData();
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
     _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
@@ -155,25 +169,70 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                     ],
                   ),
                   SizedBox(height: 50),
-                  Container(
-                    
-                  ),
-                  SizedBox(height: 20),
-                  Center(child: Text("Welcome", style: TextStyle(color: Color(0xff3868B2), fontSize: 20),),),                  
-                  Column(
-                    children: <Widget>[
-                      
-                    ],
-                  ),
-              Container(
-                padding: EdgeInsets.only(top: 44.0)
+                               
+              Scaffold(
+                body: ListView.builder(
+                    itemCount: demData == null ? 0 : demData.length,
+                    itemBuilder: (BuildContext context, int index){
+                      return Card(
+                        child: Row(
+                          children: <Widget>[
+                            Text("${demData[index]["_id"]}", style: TextStyle(fontSize: 24, color: Color(0xff3868B2))),
+                          ],
+                        ),
+                      );
+                    },
+                  ),     
+
               )
                 ],
               ),
             ),
+            
+            
           ),
         ),
       ),
     );
   }
 }
+
+
+class ItemList extends StatelessWidget {
+
+    final List list;
+    ItemList({required this.list});
+
+
+    @override
+    Widget build(BuildContext context) {
+      return new ListView.builder(
+      // ignore: unnecessary_null_comparison
+      itemCount: list == null ? 0 : list.length,
+      itemBuilder: (context, i) {
+        return new Container(
+          padding: const EdgeInsets.all(10.0),
+          child: new GestureDetector(
+            onTap: () => Navigator.of(context).push(
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new Detail(
+                            list: list,
+                            index: i,
+                          )),
+                ),
+            child: new Card(
+              child: new ListTile(
+                title: new Text(
+                  list[i]['type'].toString(),
+                  style: TextStyle(fontSize: 25.0, color: Color(0xff3868B2)),
+                ),
+               
+              ),
+            ),
+          ),
+        );
+      },
+        
+      );
+    }
+  }

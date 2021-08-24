@@ -1,3 +1,4 @@
+import 'package:creditapp/screens/demandes/demlist.dart';
 import 'package:creditapp/screens/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:creditapp/screens/login.dart';
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainPage()
+      home: demListPage()
     );
   }
 }
