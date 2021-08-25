@@ -1,3 +1,4 @@
+import 'package:creditapp/models/Demande.dart';
 import 'package:dio/dio.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -10,20 +11,26 @@ class DemService {
   var status;
   var token;
 
-Future<List> getData() async{
+Future<List<Demande>> getData() async{
 
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key ) ?? 0;
-
-    String myUrl = "http://localhost:3000/viewall";
-    http.Response response = await http.get(myUrl,
-        headers: {
-          'Accept':'application/json',
-          'Authorization' : 'Bearer $value'
-    });
-    return json.decode(response.body);
-   // print(response.body);
+final uri = Uri.parse("http://localhost:3000/viewall");
+    http.Response response = await http.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+      List<Demande> demandes = [];
+      for (var v in body) {
+        Demande demande = Demande.fromJson(v);
+        demandes.add(demande);
+      }
+      return demandes;
+    } else {
+      return [];
+    }
   }  
 
 addDem(type, apport, montant,resultat, duree, period, date) async { 
