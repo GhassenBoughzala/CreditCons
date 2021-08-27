@@ -165,7 +165,7 @@ class _EditProductState extends State<EditDem> {
                     DemService().editDem(id, type, apport, montant, resultat, duree, period, date);
                     Navigator.of(context)
                              .push(new MaterialPageRoute( 
-                                  builder: (BuildContext context) => new demListPage()
+                                  builder: (BuildContext context) => new DemListPage()
                                    ),
                               );
                       },

@@ -286,7 +286,7 @@ class AddDem extends State<AddDemPage> with SingleTickerProviderStateMixin {
                             //Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage()));
                           });
                         },
-                  color: Colors.blue,
+                  color: Color(0xff3868B2),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),

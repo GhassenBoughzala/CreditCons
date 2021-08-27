@@ -29,7 +29,7 @@ class _DetailState extends State<Detail> {
                       DemService().removeDem(widget.list[widget.index]['_id'].toString());
                       Navigator.of(context).push(
                           new MaterialPageRoute(
-                            builder: (BuildContext context) => new demListPage(),
+                            builder: (BuildContext context) => new DemListPage(),
                           )
                       );
                     },
