@@ -1,3 +1,4 @@
+import 'package:creditapp/screens/menu.dart';
 import 'package:creditapp/services/demservice.dart';
 import 'package:flutter/material.dart';
 class DemListPage extends StatelessWidget {
@@ -14,7 +15,7 @@ class DemListPage extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+           Navigator.push(context, MaterialPageRoute(builder: (context) => MenuDashboardPage() ));
           },
           icon: Icon(Icons.arrow_back_ios,
           size: 20,
@@ -23,7 +24,7 @@ class DemListPage extends StatelessWidget {
       ),
       body: FutureBuilder(
           future: demser.getData(),
-          builder: (context, snapshot) {
+          builder: (BuildContext context,AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Center(
                 child: new CircularProgressIndicator(),
@@ -31,10 +32,27 @@ class DemListPage extends StatelessWidget {
             } else {
               return ListView.builder(
                 itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 1,
-                    child: Container(child: Text(snapshot.data[index].type)),
+                itemBuilder: (BuildContext context,int index) {
+                  //Container(child: Text(snapshot.data[index].type)),
+                  return new Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: new GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        new MaterialPageRoute(builder: 
+                        (BuildContext context) => new DemListPage(
+
+
+                        )),
+                      ),
+                    child: new Card(
+                      child: new ListTile(
+                        title: new Text(
+                          snapshot.data[index].type,
+                          style: TextStyle(fontSize: 25.0),
+                        ),
+                      )
+                    ),
+                    )
                   );
                 },
               );

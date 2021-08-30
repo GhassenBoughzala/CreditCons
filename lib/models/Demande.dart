@@ -24,11 +24,9 @@ class Demande {
     this.type = json['type'] as String;
     this.apport = json['apport'] as int;
     this.montant = json['montant'] as int;
-
     this.resultat = json['resultat'] as int;
     this.duree = json['duree'] as int;
     this.period = json['period'] as String;
-
     this.date = DateTime.parse(json['date'] as String);
   }
 }

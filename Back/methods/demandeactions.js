@@ -31,7 +31,7 @@ var functions = {
     
     //View All Demandes
     viewAll : function (req,res) {
-      console.log("Get all Demandes");
+      //console.log("Get all Demandes");
       Demandesmodel.find({}).exec(function (err, ev) {
         if (err) {
           console.log("Error View All Demandes ");

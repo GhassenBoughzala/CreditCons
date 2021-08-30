@@ -27,6 +27,7 @@ final uri = Uri.parse("http://localhost:3000/viewall");
         Demande demande = Demande.fromJson(v);
         demandes.add(demande);
       }
+      print(demandes);
       return demandes;
     } else {
       return [];
