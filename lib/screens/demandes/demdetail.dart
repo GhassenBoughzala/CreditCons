@@ -60,6 +60,12 @@ class _DetailState extends State<Detail> {
                 new Text(widget.list[widget.index]['type'], style: new TextStyle(fontSize: 20.0),),
                 Divider(),
                 new Text("Apport : ${widget.list[widget.index]['apport']}", style: new TextStyle(fontSize: 18.0),),
+                new Text("Montant : ${widget.list[widget.index]['montant']}", style: new TextStyle(fontSize: 18.0),),
+                new Text("Resultat : ${widget.list[widget.index]['resultat']}", style: new TextStyle(fontSize: 18.0),),
+                new Text("Duree : ${widget.list[widget.index]['duree']}", style: new TextStyle(fontSize: 18.0),),
+                new Text("Period : ${widget.list[widget.index]['period']}", style: new TextStyle(fontSize: 18.0),),
+                new Text("Date : ${widget.list[widget.index]['resultat']}", style: new TextStyle(fontSize: 18.0),),
+                
                 new Padding(padding: const EdgeInsets.only(top: 30.0),),
 
                 new Row(

@@ -1,5 +1,6 @@
 import 'package:creditapp/main.dart';
 import 'package:creditapp/screens/demandes/Adddem.dart';
+import 'package:creditapp/screens/demandes/listview.dart';
 import 'package:creditapp/services/authservice.dart';
 import 'package:creditapp/services/demservice.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class MenuPage extends State<MenuDashboardPage> with SingleTickerProviderStateMi
                 SizedBox(height: 10),
                 TextButton(
                         child:  Text("List de Credits", style: TextStyle(color: Color(0xff3868B2), fontSize: 22)),
-                        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => DemListPage() ));},
+                        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ListDemandes() ));},
                     ),
 
               ],
