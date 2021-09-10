@@ -33,7 +33,7 @@ router.get('/logout', auth.logout)
 //Demande CRUD
 router.post('/addDem', demactions.addDem)
 router.get('/viewall', demactions.viewAll)
-router.put('/updateDem', demactions.updateDem)
+router.put('/updateDem/:id', demactions.updateDem)
 router.delete('/deleteDem/:id', demactions.annulerDem)
 
 module.exports = router
